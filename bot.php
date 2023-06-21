@@ -167,7 +167,7 @@ bot('sendMessage', ['chat_id' => $chat_id,'text'=>"𖠜 Clicks Requests Of Numbe
 if($text == "to update bot"){
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "The source has been updated ",
 ]);
-$up_file = curl_get("https://raw.githubusercontent.com/bessox/Monster/main/bot.php?token=GHSAT0AAAAAACEAGSXFBUJAPAQXIRTO6YZ6ZERW2GQ");
+$up_file = curl_get("https://raw.githubusercontent.com/bessox/besso/main/bot.php");
 file_put_contents("bot.php",$up_file);
 shell_exec("killall screen && screen -dmS bot php7.4 bot.php");
 }
