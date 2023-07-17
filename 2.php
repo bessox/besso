@@ -1,10 +1,8 @@
 <?php
 date_default_timezone_set("Asia/Baghdad");
-if (!file_exists('madeline.php')) {
-    copy('https://phar.madelineproto.xyz/madeline.php', 'madeline.php');
+if (file_exists('madeline.php')){
+    require_once 'madeline.php';
 }
-include 'madeline.php';
-
 define('MADELINE_BRANCH', 'deprecated');
 function bot($method, $datas = []){
     $token = file_get_contents("token");
