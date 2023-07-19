@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set("Asia/Baghdad");
 if (file_exists('madeline.php')){
-    require_once 'madeline.php';
+require_once 'madeline.php';
 }
 define('MADELINE_BRANCH', 'deprecated');
 function bot($method, $datas = []){
@@ -20,9 +20,9 @@ $settings['app_info']['api_id'] = 13167118;
 $settings['app_info']['api_hash'] = '6927e2eb3bfcd393358f0996811441fd';
 $MadelineProto = new \danog\MadelineProto\API('1.madeline',$settings);
 $MadelineProto->start();
-$tiNa = date('d - g:i:s - A');
-$x=0;
+$x= file_get_contents('besso/loop1.txt');
 do{
+file_put_contents('besso/loop1.txt',$x++);
 $info = json_decode(file_get_contents('info.json'),true);
 $info["loop1"] = $x;
 file_put_contents('info.json', json_encode($info));
@@ -41,16 +41,18 @@ $data = str_replace("\n".$user,"", file_get_contents("users1"));
 file_put_contents("users1", $data);
 }catch(Exception $e){
 echo $e->getMessage();
-if($e->getMessage() == "This peer is not present in the internal peer database"){
+if($e->getMessage() == "USERNAME_INVALID"){
+bot('sendMessage', ['chat_id' => file_get_contents("ID"), 'text' => "╭ checker ❲ 1 ❳\n | username is Band\n╰ Done Delet on list ↣ @$user",]);
+$data = str_replace("\n".$user,"", file_get_contents("users1"));
+file_put_contents("users1", $data);
+}elseif($e->getMessage() == "This peer is not present in the internal peer database"){
 $MadelineProto->account->updateUsername(['username'=>$user]);
 }elseif($e->getMessage() == "USERNAME_OCCUPIED"){
 bot('sendMessage', ['chat_id' => file_get_contents("ID"), 'text' => "╭ checker ❲ 1 ❳ 🛎 \n | username not save\n╰ FLood 1500 ↣ @$user",]);
-                        $data = str_replace("\n".$user,"", file_get_contents("users1"));
-                        file_put_contents("users1", $data);
+$data = str_replace("\n".$user,"", file_get_contents("users1"));
+file_put_contents("users1", $data);
 }else{
-bot('sendMessage', ['chat_id' => file_get_contents("ID"), 'text' =>  "1 • Error @$user ".$e->getMessage()]);
-$info = json_decode(file_get_contents('info.json'),true);
-$info["num1"] = "delet";file_put_contents('info.json', json_encode($info));
+bot('sendMessage', ['chat_id' => file_get_contents("ID"), 'text' =>"1 • Error @$user ".$e->getMessage()]);
 } 
 }
 }

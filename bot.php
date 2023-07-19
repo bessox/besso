@@ -33,17 +33,17 @@ $get = bot('getupdates', ['offset' => $up_id]);
 return end($get['result']);
 }
 $botuser = "@" . bot('getme', ['bot']) ["result"]["username"];
-file_put_contents("_ad.txt", $botuser);
+file_put_contents("besso/_ad.txt", $botuser);
 function stats($nn) {
-	$st = "";
-	$x = shell_exec("pm2 show $nn");
-	if (preg_match("/online/", $x)) {
-		$st = "run";
-	}
-	else {
-		$st = "stop";
-	}
-	return $st;
+$st = "";
+$x = shell_exec("pm2 show $nn");
+if (preg_match("/online/", $x)) {
+$st = "run";
+}
+else {
+$st = "stop";
+}
+return $st;
 }
 function states($g) {
 $st = "";
@@ -62,7 +62,7 @@ $list = "";
 $i = 1;
 foreach ($users as $user) {
 if ($user != "") {
-$list = $list . "\n$i  ➧ @$user";
+$list = $list . "\n$i➧ @$user";
 $i++;
 }
 }
@@ -79,7 +79,7 @@ $list = "";
 $i = 1;
 foreach ($users as $user) {
 if ($user != "") {
-$list = $list . "\n$i  ➧ @$user";
+$list = $list . "\n$i➧ @$user";
 $i++;
 }
 }
@@ -93,7 +93,7 @@ return $list;
 }
 $step = "";
 function run($update) {
-global $step,$redis,$id_bot;
+global $step;
 $nn = bot('getme', ['bot']) ["result"]["username"];
 $message = $update['message'];
 $userID = $message['from']['id'];
@@ -106,23 +106,19 @@ $data = $cq['data'];
 $message_id = $cq['message']['message_id'];
 $chat_id2 = $cq['message']['chat']['id'];
 $group = file_get_contents("ID");
-$url = "";
-$g = file_get_contents($url);
 $js = json_decode($g);
 $da = $js->date;
 $time = $js->time;
 $day = $js->day;
 $month = $js->month;
-
 $ad = array("$group");
 if($text == "/start" and !in_array($chat_id,$ad) and $chat_id != $group = null){
 bot('sendmessage',[ 
-'chat_id'=>$chat_id,  
+'chat_id'=>$chat_id,
 'text'=>" اهلا بك عزيز \n تشيكر تيم بيسو التنصيب بوت يمكنك تواصل ع الاسفل اليوزرات
 ",'parse_mode' => "MarkDown", 'disable_web_page_preview' => true,
 'reply_markup' => json_encode(['inline_keyboard' => [
-[['text' => "- تواصل بيسو -'", 'url' => "https://t.me/oldpro"]],
-[['text' => "- قناة تيم بيسو -'", 'url' => "https://t.me/oldpro"]],
+[['text' => "- قناة تيم كلاوات -'", 'url' => "https://t.me/Tim_Klawat"]],
 ]]) 
 ]);
 }
@@ -135,19 +131,14 @@ bot('sendMessage',[
 'parse_mode' => "MarkDown", 
 'disable_web_page_preview' => true,
 'reply_markup' => json_encode(['resize_keyboard' => true, 'keyboard' => [
-[["text" =>"Add or Delet Number"],["text" =>"Add or Delet Users"]],
-[["text" => "To Account"],["text" =>"Run | Stop"]],
-[["text" =>"Requests"]],
-[["text" =>"Show or Clear list"],["text" =>"Pin All"]],
+[["text" =>"اضف او حذف رقم"],["text" =>"اضف او حذف يوزر"]],
+[["text" =>"تشغيل او ايقاف"]],
+[["text" =>"عرض اليوزرات"],["text" =>"الضغطات"]],
 [["text" =>"--------------------------------------"]],
-[["text" =>"to update Fishing"],["text" =>"to update madeline"]],
-[["text" =>"to update bot"]]], ]) 
-])->result->message_id;
-bot('deleteMessage',[
-'chat_id'=>$chat_id,
-'message_id'=>$message_id + 1,
+[["text" =>"تحديث ملفات صيد"],["text" =>"تحديث مكاتب تشيكر"]],
+[["text" =>"تحديث بوت تحكم"]]], ]) 
 ]);
-}}
+}
 $info = json_decode(file_get_contents('info.json'),true);
 $loop1 = $info["loop1"];
 $loop2 = $info["loop2"];
@@ -156,7 +147,7 @@ $loop4 = $info["loop4"];
 $loop5 = $info["loop5"];
 file_put_contents('info.json', json_encode($info));
 if ($chat_id == $group) {
-if($text == 'Requests'){
+if($text == 'الضغطات'){
 bot('sendMessage', ['chat_id' => $chat_id,'text'=>"𖠜 Clicks Requests Of Numbers 𓆪 •",
 'reply_markup'=>json_encode(['inline_keyboard'=>[
 [['text'=>"1 ↣  $loop1 ",'callback_data'=>"U"],['text'=>"2 ↣  $loop2 ",'callback_data'=>"U"]],
@@ -164,14 +155,14 @@ bot('sendMessage', ['chat_id' => $chat_id,'text'=>"𖠜 Clicks Requests Of Numbe
 [['text'=>"5 ↣  $loop5 ",'callback_data'=>"U"]],
 ]])]);
 }}
-if($text == "to update bot"){
+if($text == "تحديث بوت تحكم"){
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "The source has been updated ",
 ]);
 $up_file = curl_get("https://raw.githubusercontent.com/bessox/besso/main/bot.php");
 file_put_contents("bot.php",$up_file);
 shell_exec("killall screen && screen -dmS bot php7.4 bot.php");
 }
-if($text == "to update Fishing"){
+if($text == "تحديث ملفات صيد"){
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "The source has been updated ",
 ]);
 $up_file = curl_get("https://raw.githubusercontent.com/bessox/besso/main/1.php");
@@ -196,41 +187,23 @@ shell_exec("pm2 start 3.php");
 shell_exec("pm2 start 4.php");
 shell_exec("pm2 start 5.php");
 }
-if($text == "to update madeline"){
+if($text == "تحديث مكاتب تشيكر"){
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "The source has been updated ",
 ]);
 $up_file = curl_get("https://raw.githubusercontent.com/bessox/besso/main/madeline.php");
 file_put_contents("madeline.php",$up_file);
 }
-if ($chat_id == $group) {
-if ($text == "To Account") {
-bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
-'reply_markup' => json_encode(['resize_keyboard' => true, 'keyboard' => [
-[["text" =>"->"]],
-[["text" =>"Run Account 1"],["text" =>"Run Account 2"]],
-[["text" =>"Run Account 3"],["text" =>"Run Account 4"]],
-[["text" =>"Run Account 5"]]],]) ]);
-}}
 if (preg_match('/Run Account \d+/',$text)){
 $ex = explode('Run Account ',$text);
 shell_exec("pm2 start $ex[1].php");
 bot('sendMessage', ['chat_id' => $chat_id,'text'=>"⌁ Done type to Account ".$ex[1]."✅",
 'reply_markup'=>json_encode(['inline_keyboard'=>[
-[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
-$type = file_get_contents("type".$ex[1]);
-if ($type == "a") {
-}else{
-file_put_contents("type".$ex[1], "a");
-$info = json_decode(file_get_contents('info.json'),true);
-$info["num".$ex[1]] = "on";
-file_put_contents('info.json', json_encode($info));
 }
-}
-
 ##اضف رقم او حذف###
 if ($chat_id == $group) {
-if ($text == "Add or Delet Number") {
+if ($text == "اضف او حذف رقم") {
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
 'reply_markup' => json_encode(['resize_keyboard' => true, 'keyboard' => [
 [["text" =>"->"]],
@@ -261,16 +234,17 @@ unlink($ex[1].".madeline.safe.php");
 unlink($ex[1].".madeline.safe.php.lock");
 system('rm -rf '.$ex[1].'.madeline && rm -rf '.$ex[1].'.madeline.lock && rm -rf '.$ex[1].'.madeline.lightState.php && rm -rf '.$ex[1].'.madeline.lightState.php.lock && rm -rf '.$ex[1].'.madeline.safe.php && rm -rf '.$ex[1].'.madeline.safe.php.lock');
 }
-
 ####رن او ستوب###
 if ($chat_id == $group) {
-if ($text == "Run | Stop") {
+if ($text == "تشغيل او ايقاف") {
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
 'reply_markup' => json_encode(['resize_keyboard' => true, 'keyboard' => [
 [["text" =>"->"]],
-[["text" =>"Stop Run 1"],["text" =>"Stop Run 2"]],
-[["text" =>"Stop Run 3"],["text" =>"Stop Run 4"]],
-[["text" =>"Stop Run 5"]]],]) ]);
+[["text" =>"Stop Run 1"],["text" =>"Run Account 1"]],
+[["text" =>"Stop Run 2"],["text" =>"Run Account 2"]],
+[["text" =>"Stop Run 3"],["text" =>"Run Account 3"]],
+[["text" =>"Stop Run 4"],["text" =>"Run Account 4"]],
+[["text" =>"Stop Run 5"],["text" =>"Run Account 5"]]],]) ]);
 }}
 if (preg_match('/Stop Run \d+/',$text)){
 $ex = explode('Stop Run ',$text);
@@ -278,14 +252,14 @@ $info = json_decode(file_get_contents('info.json'),true);
 $info["loop".$ex[1]] = "off";
 file_put_contents('info.json', json_encode($info));
 shell_exec("pm2 stop $ex[1].php");
-bot('sendMessage', ['chat_id' => $chat_id,'text'=>"⌁ Done Stoped Checker \n⌁ Checker Stoped List 1 ".$ex[1]." 🔐",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],]])]);
+bot('sendMessage', ['chat_id' => $chat_id,'text'=>"⌁ Done Stoped Checker \n⌁ Checker Stoped List ".$ex[1]." 🔐",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],]])]);
 $info = json_decode(file_get_contents('info.json'),true);
 $info["num".$ex[1]] = "off";
 file_put_contents('info.json', json_encode($info));
 }
 ##اضف حذف يوزر###
 if ($chat_id == $group) {
-if ($text == "Add or Delet Users") {
+if ($text == "اضف او حذف يوزر") {
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
 'reply_markup' => json_encode(['resize_keyboard' => true, 'keyboard' => [
 [["text" =>"->"]],
@@ -297,43 +271,37 @@ bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
 }}
 if (preg_match('/add List \d+/',$text)){
 $ex = explode('add List ',$text);
-bot('sendMessage', ['chat_id' => $chat_id,'text'=>"Send List ".$ex[1]." 📥",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],]])]);
+bot('sendMessage', ['chat_id' => $chat_id,'text'=>"Send List ".$ex[1]." 📥",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],]])]);
 file_put_contents('mode', 'besso'.$ex[1]);
 }
-
 if (preg_match('/Delet - \d+/',$text)){
 $ex = explode('Delet - ',$text);
-bot('sendMessage', ['chat_id' => $chat_id,'text'=>"Delet List ".$ex[1]." 🗑",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],]])]);
+bot('sendMessage', ['chat_id' => $chat_id,'text'=>"Delet List ".$ex[1]." 🗑",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],]])]);
 file_put_contents('mode', 'Unpin'.$ex[1]);
-}
-
+} 
 if(file_exists('mode')){
 $mode = file_get_contents('mode');
-$users = explode("\n", file_get_contents('users'));
+$users = explode("\n", file_get_contents('users1'));
 if(preg_match("/@+/", $text)){
-if($mode == 'pinall'){
+if($mode == 'Pi0n'){
 $user = explode("@", $text) [1];
 if (!in_array($user, $users)) {
 file_put_contents("users1", "\n" . $user, FILE_APPEND);
-file_put_contents("users2", "\n" . $user, FILE_APPEND);
-file_put_contents("users3", "\n" . $user, FILE_APPEND);
-file_put_contents("users4", "\n" . $user, FILE_APPEND);
-file_put_contents("users5", "\n" . $user, FILE_APPEND);
-bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : ⌁ Done Pin All.🚀",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"⌁ Done Delet User List 2 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
-shell_exec("pm2 start 1.php");
 } else {
-bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 }
 unlink('mode');
-} elseif($mode == 'Unpin1'){
+} 
+if($mode == 'Unpin1'){
 echo 'Unpin1';
 $user = explode("@", $text) [1];
 $data = str_replace("\n" . $user, "", file_get_contents("users1"));
 file_put_contents("users1", $data);
 file_put_contents("users1",preg_replace('~[\r\n]+~',"\n",trim(file_get_contents("users1"))));
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Delet User List 1 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Delet User List 1 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }elseif($mode == 'besso1'){
@@ -352,7 +320,7 @@ $userN = $userN . "\n" . $user;
 }
 }
 file_put_contents("users1", $userT, FILE_APPEND);
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Added Users To List 1 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Added Users To List 1 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }
@@ -365,10 +333,10 @@ if($mode == 'Pi0n'){
 $user = explode("@", $text) [1];
 if (!in_array($user, $users)) {
 file_put_contents("users2", "\n" . $user, FILE_APPEND);
-$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"⌁ Done Delet User List 2 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"⌁ Done Delet User List 2 : @$user" ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 } else {
-bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 }
 unlink('mode');
@@ -378,7 +346,7 @@ $user = explode("@", $text) [1];
 $data = str_replace("\n" . $user, "", file_get_contents("users2"));
 file_put_contents("users2", $data);
 file_put_contents("users2",preg_replace('~[\r\n]+~',"\n",trim(file_get_contents("users2"))));
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Delet User List 2 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Delet User List 2 : @$user" ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }elseif($mode == 'besso2'){
@@ -397,7 +365,7 @@ $userN = $userN . "\n" . $user;
 }
 }
 file_put_contents("users2", $userT, FILE_APPEND);
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Added Users To List 2 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Added Users To List 2 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }
@@ -410,10 +378,10 @@ if($mode == 'P0in'){
 $user = explode("@", $text) [1];
 if (!in_array($user, $users)) {
 file_put_contents("users3", "\n" . $user, FILE_APPEND);
-$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"@$user : ⌁ Done Pin.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"@$user : ⌁ Done Pin.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 } else {
-bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);}
 unlink('mode');
 }elseif($mode == 'Unpin3'){
@@ -422,7 +390,7 @@ $user = explode("@", $text) [1];
 $data = str_replace("\n" . $user, "", file_get_contents("users3"));
 file_put_contents("users3", $data);
 file_put_contents("users3",preg_replace('~[\r\n]+~',"\n",trim(file_get_contents("users3"))));
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Delet User List 3 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Delet User List 3 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }elseif($mode == 'besso3'){
@@ -441,7 +409,7 @@ $userN = $userN . "\n" . $user;
 }
 }
 file_put_contents("users3", $userT, FILE_APPEND);
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Added Users To List 3 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Added Users To List 3 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }
@@ -454,10 +422,10 @@ if($mode == 'P0in'){
 $user = explode("@", $text) [1];
 if (!in_array($user, $users)) {
 file_put_contents("users4", "\n" . $user, FILE_APPEND);
-$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"@$user : ⌁ Done Pin.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"@$user : ⌁ Done Pin.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 } else {
-bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 }
 unlink('mode');
@@ -467,7 +435,7 @@ $user = explode("@", $text) [1];
 $data = str_replace("\n" . $user, "", file_get_contents("users4"));
 file_put_contents("users4", $data);
 file_put_contents("users4",preg_replace('~[\r\n]+~',"\n",trim(file_get_contents("users4"))));
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Delet User List 4 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Delet User List 4 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }elseif($mode == 'besso4'){
@@ -486,7 +454,7 @@ $userN = $userN . "\n" . $user;
 }
 }
 file_put_contents("users4", $userT, FILE_APPEND);
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Added Users To List 4 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Added Users To List 4 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }
@@ -499,10 +467,10 @@ if($mode == 'P0in'){
 $user = explode("@", $text) [1];
 if (!in_array($user, $users)) {
 file_put_contents("users5", "\n" . $user, FILE_APPEND);
-$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"@$user : ⌁ Done Pin ",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+$EzTG->sendMessage(['chat_id'=>$cha,'text'=>"@$user : ⌁ Done Pin ",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 } else {
-bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text'=>"@$user : Already Exists.",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 }
 unlink('mode');
@@ -512,7 +480,7 @@ $user = explode("@", $text) [1];
 $data = str_replace("\n" . $user, "", file_get_contents("users5"));
 file_put_contents("users5", $data);
 file_put_contents("users5",preg_replace('~[\r\n]+~',"\n",trim(file_get_contents("users5"))));
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Delet User List 5 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Delet User List 5 : @$user",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }elseif($mode == 'besso5'){
@@ -531,16 +499,15 @@ $userN = $userN . "\n" . $user;
 }
 }
 file_put_contents("users5", $userT, FILE_APPEND);
-bot('sendMessage', ['chat_id' => $chat_id,  'text' => "⌁ Done Added Users To List 5 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id,'text' => "⌁ Done Added Users To List 5 :\n" . countUsers($userT, "1") ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 unlink('mode');
 }
 }}
 }
-##كسي##
 ##عرض السته او حذف##
 if ($chat_id == $group) {
-if ($text == "Show or Clear list") {
+if ($text == "عرض اليوزرات") {
 bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
 'reply_markup' => json_encode(['resize_keyboard' => true, 'keyboard' => [
 [["text" =>"->"]],
@@ -553,31 +520,21 @@ bot('sendMessage', ['chat_id' => $chat_id, 'text' => "𖠜 Select button",
 if (preg_match('/Show All - \d+/',$text)){
 $ex = explode('Show All - ',$text);
 $users = explode("\n", file_get_contents("users".$ex[1]));
-$z = "";
+$list = "";
 $i = 1;
 foreach ($users as $user) {
 if ($user != "") {
-$z = $z . "\n$i  ➧ @$user";
+$list = $list . "\n$i  ➧ @$user";
 $i++;}}
-bot('sendMessage', ['chat_id' => $chat_id, 'text' => "• The All Users List ".$ex[1]." 📥 \n". $z ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text' => "• The All Users List ".$ex[1]." 📥 \n".$list ,'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 }
 if (preg_match('/Clear list \d+/',$text)){
 $ex = explode('Clear list ',$text);
-bot('sendMessage', ['chat_id' => $chat_id, 'text' => "Done Delete all Usernames List 1",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
+bot('sendMessage', ['chat_id' => $chat_id, 'text' => "Done Delete all Usernames List 1",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "قناة تيم كلاوات", 'url' => "https://t.me/Tim_Klawat"]],
 ]])]);
 file_put_contents("users".$ex[1], "");
 }
-if ($text == "Pin All") {
-bot('sendMessage',['chat_id'=>$chat_id,'message_id'=>$message_id,'text'=>"➧ Send Username ➧ pin user ",'reply_markup'=>json_encode(['inline_keyboard'=>[[['text' => "اي مشكله او ستفسار", 'url' => "https://t.me/oldpro"]],
-]])]);
-file_put_contents('mode', 'pinall');
-shell_exec("pm2 stop 1.php");
-unlink('users1');
-unlink('users2');
-unlink('users3');
-unlink('users4');
-unlink('users5');
 }
 }
 while (true) {
