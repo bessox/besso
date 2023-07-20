@@ -20,9 +20,8 @@ $settings['app_info']['api_id'] = 13167118;
 $settings['app_info']['api_hash'] = '6927e2eb3bfcd393358f0996811441fd';
 $MadelineProto = new \danog\MadelineProto\API('4.madeline',$settings);
 $MadelineProto->start();
-$x= file_get_contents('besso/loop4.txt');
+$x = 0;
 do{
-file_put_contents('besso/loop4.txt',$x++);
 $info = json_decode(file_get_contents('info.json'),true);
 $info["loop4"] = $x;
 file_put_contents('info.json', json_encode($info));
